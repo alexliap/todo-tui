@@ -1,13 +1,14 @@
+use super::common::centered_rect;
 use crate::app::App;
 use ratatui::style::{Color, Modifier, Style};
 use ratatui::{
     Frame,
     layout::{Constraint, Direction, Layout, Rect},
     text::{Line, Span, Text},
-    widgets::{Block, Borders, List, Paragraph},
+    widgets::{Block, Borders, Clear, List, Paragraph},
 };
 
-pub fn ui_home(frame: &mut Frame, app: &mut App) {
+pub fn ui_settings(frame: &mut Frame, app: &mut App) {
     let chunks = Layout::default()
         .direction(Direction::Vertical)
         .constraints([
@@ -21,23 +22,20 @@ pub fn ui_home(frame: &mut Frame, app: &mut App) {
         .borders(Borders::ALL)
         .style(Style::default());
 
-    let title = Paragraph::new(Text::styled(
-        "Rust TODO TUI App",
-        Style::default().fg(Color::Green),
-    ))
-    .block(title_block);
+    let title = Paragraph::new(Text::styled("Settings", Style::default().fg(Color::Green)))
+        .block(title_block);
 
     frame.render_widget(title, chunks[0]);
 
-    ui_home_main(frame, app, chunks[1]);
+    ui_settings_main(frame, app, chunks[1]);
 
-    ui_home_footer(frame, chunks[2]);
+    ui_settings_footer(frame, chunks[2]);
 }
 
-pub fn ui_home_main(frame: &mut Frame, app: &mut App, chunk: Rect) {
+pub fn ui_settings_main(frame: &mut Frame, app: &mut App, chunk: Rect) {
     let state = &mut app.list_state;
 
-    let items = ["Projects", "Settings", "Exit"];
+    let items = ["Set Base Path", "Back"];
     let list = List::new(items)
         .style(Color::White)
         .highlight_style(Modifier::REVERSED)
@@ -46,16 +44,13 @@ pub fn ui_home_main(frame: &mut Frame, app: &mut App, chunk: Rect) {
     frame.render_stateful_widget(list, chunk, state);
 }
 
-pub fn ui_home_footer(frame: &mut Frame, chunk: Rect) {
-    let current_navigation_text = Span::styled("Home", Style::default().fg(Color::Green));
+pub fn ui_settings_footer(frame: &mut Frame, chunk: Rect) {
+    let current_navigation_text = Span::styled("Settings", Style::default().fg(Color::Yellow));
 
     let mode_footer = Paragraph::new(Line::from(current_navigation_text))
         .block(Block::default().borders(Borders::ALL));
 
-    let current_keys_hint = Span::styled(
-        "(q) to quit / (p) go to Projects",
-        Style::default().fg(Color::Red),
-    );
+    let current_keys_hint = Span::styled("(q) to go back", Style::default().fg(Color::Red));
 
     let key_notes_footer =
         Paragraph::new(Line::from(current_keys_hint)).block(Block::default().borders(Borders::ALL));
@@ -67,4 +62,18 @@ pub fn ui_home_footer(frame: &mut Frame, chunk: Rect) {
 
     frame.render_widget(mode_footer, footer_chunks[0]);
     frame.render_widget(key_notes_footer, footer_chunks[1]);
+}
+
+pub fn ui_settings_set(frame: &mut Frame, app: &App) {
+    let area = centered_rect(60, 20, frame.area());
+
+    let title_block = Block::default()
+        .title(" Set the base path ")
+        .borders(Borders::ALL)
+        .style(Style::default().bg(Color::DarkGray).fg(Color::White));
+
+    let title_text = Paragraph::new(app.settings.base_path.clone()).block(title_block);
+
+    frame.render_widget(Clear, area);
+    frame.render_widget(title_text, area);
 }

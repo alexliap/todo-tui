@@ -71,7 +71,7 @@ pub fn ui_projects_create(frame: &mut Frame, app: &App) {
     let area = centered_rect(60, 20, frame.area());
 
     let title_block = Block::default()
-        .title("Enter a project title")
+        .title(" Enter a project title ")
         .borders(Borders::ALL)
         .style(Style::default().bg(Color::DarkGray).fg(Color::White));
 
