@@ -1,5 +1,6 @@
 use ratatui::crossterm::event::KeyCode;
 
+use super::projects::Project;
 use super::screens::{CurrentScreen, ProjectScreen, SettingScreen};
 use super::state::App;
 
@@ -106,6 +107,7 @@ impl App {
                 false
             }
             KeyCode::Enter => {
+                Project::new(self.input.clone()).create();
                 self.input.clear();
                 self.current_screen = CurrentScreen::Projects(ProjectScreen::Main);
                 false

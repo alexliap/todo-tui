@@ -1,4 +1,5 @@
 mod handlers;
+mod projects;
 mod screens;
 mod settings;
 mod state;
