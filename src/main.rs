@@ -12,7 +12,7 @@ use ratatui::{
 mod app;
 mod ui;
 use crate::{
-    app::{App, CurrentScreen, ProjectScreen, SettingScreen},
+    app::{App, CurrentScreen, NoteScreen, ProjectScreen, SettingScreen},
     ui::ui,
 };
 
@@ -82,6 +82,16 @@ where
                 }
                 CurrentScreen::Projects(ProjectScreen::Create) => {
                     if app.handle_projects_create(key.code) {
+                        return Ok(true);
+                    }
+                }
+                CurrentScreen::Projects(ProjectScreen::Open) => {
+                    if app.handle_projects_open(key.code) {
+                        return Ok(true);
+                    }
+                }
+                CurrentScreen::Notes(NoteScreen::Main) => {
+                    if app.handle_notes_screen(key.code) {
                         return Ok(true);
                     }
                 }

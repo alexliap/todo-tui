@@ -80,3 +80,27 @@ pub fn ui_projects_create(frame: &mut Frame, app: &App) {
     frame.render_widget(Clear, area);
     frame.render_widget(title_text, area);
 }
+
+pub fn ui_projects_open(frame: &mut Frame, app: &mut App) {
+    let area = centered_rect(60, 40, frame.area());
+
+    let block = Block::default()
+        .title(" Open Project ")
+        .borders(Borders::ALL)
+        .style(Style::default().bg(Color::DarkGray).fg(Color::White));
+
+    frame.render_widget(Clear, area);
+
+    if app.project_items.is_empty() {
+        let empty = Paragraph::new("No projects found").block(block);
+        frame.render_widget(empty, area);
+    } else {
+        let list = List::new(app.project_items.clone())
+            .block(block)
+            .style(Color::White)
+            .highlight_style(Modifier::REVERSED)
+            .highlight_symbol("> ");
+
+        frame.render_stateful_widget(list, area, &mut app.project_list);
+    }
+}

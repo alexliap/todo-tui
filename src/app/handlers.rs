@@ -1,7 +1,7 @@
 use ratatui::crossterm::event::KeyCode;
 
-use super::projects::Project;
-use super::screens::{CurrentScreen, ProjectScreen, SettingScreen};
+use super::project::Project;
+use super::screens::{CurrentScreen, NoteScreen, ProjectScreen, SettingScreen};
 use super::state::App;
 
 impl App {
@@ -64,7 +64,8 @@ impl App {
                             false
                         }
                         1 => {
-                            self.current_screen = CurrentScreen::Projects(ProjectScreen::Main);
+                            self.available_projects();
+                            self.current_screen = CurrentScreen::Projects(ProjectScreen::Open);
                             false
                         }
                         2 => {
@@ -85,6 +86,47 @@ impl App {
             }
             KeyCode::Char('q') => {
                 self.current_screen = CurrentScreen::Main;
+                false
+            }
+            _ => false,
+        }
+    }
+
+    pub fn handle_projects_open(&mut self, key_code: KeyCode) -> bool {
+        match key_code {
+            KeyCode::Down => {
+                self.project_list.select_next();
+                false
+            }
+            KeyCode::Up => {
+                self.project_list.select_previous();
+                false
+            }
+            KeyCode::Enter => {
+                if let Some(index) = self.project_list.selected() {
+                    if let Some(name) = self.project_items.get(index).cloned() {
+                        self.selected_project = Some(name);
+                        self.current_screen = CurrentScreen::Notes(NoteScreen::Main);
+                        self.project_list.select(Some(0));
+                    }
+                }
+                false
+            }
+            KeyCode::Esc | KeyCode::Char('q') => {
+                self.current_screen = CurrentScreen::Projects(ProjectScreen::Main);
+                self.list_state.select(Some(0));
+                false
+            }
+            _ => false,
+        }
+    }
+
+    pub fn handle_notes_screen(&mut self, key_code: KeyCode) -> bool {
+        match key_code {
+            KeyCode::Char('q') | KeyCode::Esc => {
+                self.selected_project = None;
+                self.current_screen = CurrentScreen::Projects(ProjectScreen::Main);
+                self.list_state.select(Some(0));
                 false
             }
             _ => false,

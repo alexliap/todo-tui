@@ -1,6 +1,7 @@
 pub enum CurrentScreen {
     Main,
     Projects(ProjectScreen),
+    Notes(NoteScreen),
     Settings(SettingScreen),
     Exiting,
 }
@@ -8,11 +9,14 @@ pub enum CurrentScreen {
 pub enum ProjectScreen {
     Main,
     Create,
-    // OpenProject,
+    Open,
+}
+
+pub enum NoteScreen {
+    Main,
 }
 
 pub enum SettingScreen {
     Main,
     Set,
-    // OpenProject,
 }
