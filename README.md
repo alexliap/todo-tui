@@ -4,7 +4,7 @@ A terminal UI todo/project manager written in Rust, built on [ratatui](https://r
 
 ## Status
 
-Early scaffolding. Screen navigation, a project-creation popup, and persisted settings are in place; the per-project todo view and opening an existing project are not yet implemented.
+Early scaffolding. Projects and notes can be created, listed, opened, and edited; settings are persisted. No richer todo/task model yet.
 
 ## Run
 
@@ -17,6 +17,11 @@ cargo run
 - Home screen with menu navigation
 - Projects screen with Create / Open / Back options
 - Centered popup for entering a new project title with live text input
+- Open an existing project from a picker listing directories under the base path
+- Notes screen per project with Create / Open / Back options
+- Centered popup for entering a new note name, which creates the file on disk
+- Open an existing note from a picker, then edit its contents in a multi-line popup editor (Enter inserts a newline, Esc saves and closes)
+- Visible cursor in all text-input popups
 - Settings screen for configuring the base path, persisted to `settings.toml`
 
 ## Configuration
