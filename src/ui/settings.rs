@@ -1,4 +1,4 @@
-use super::common::centered_rect;
+use super::common::{centered_rect, cursor_pos};
 use crate::app::App;
 use ratatui::style::{Color, Modifier, Style};
 use ratatui::{
@@ -76,4 +76,6 @@ pub fn ui_settings_set(frame: &mut Frame, app: &App) {
 
     frame.render_widget(Clear, area);
     frame.render_widget(title_text, area);
+
+    frame.set_cursor_position(cursor_pos(area, &app.settings.base_path));
 }

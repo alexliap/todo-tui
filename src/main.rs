@@ -95,6 +95,21 @@ where
                         return Ok(true);
                     }
                 }
+                CurrentScreen::Notes(NoteScreen::Create) => {
+                    if app.handle_notes_create(key.code) {
+                        return Ok(true);
+                    }
+                }
+                CurrentScreen::Notes(NoteScreen::Open) => {
+                    if app.handle_notes_open(key.code) {
+                        return Ok(true);
+                    }
+                }
+                CurrentScreen::Notes(NoteScreen::Edit) => {
+                    if app.handle_notes_edit(key.code) {
+                        return Ok(true);
+                    }
+                }
                 CurrentScreen::Settings(SettingScreen::Main) => {
                     if app.handle_settings_screen(key.code) {
                         return Ok(true);

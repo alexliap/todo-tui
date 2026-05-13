@@ -14,6 +14,9 @@ pub enum ProjectScreen {
 
 pub enum NoteScreen {
     Main,
+    Create,
+    Open,
+    Edit
 }
 
 pub enum SettingScreen {
